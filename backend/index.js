@@ -5,14 +5,22 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const {HoldingsModel} = require("./models/HoldingsModel");
 const {PositionsModel} = require("./models/PositionsModel");
+const {OrdersModel} = require("./models/OrdersModel");
 
 const PORT = process.env.PORT || 3002;
 const uri = process.env.MONGO_URL;
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: ["http://localhost:3000", "http://localhost:3001"], 
+  credentials: true,
+}));
+
 app.use(bodyParser.json());
+app.use(express.json());
+
+app.use("/auth", require("./routes/AuthRoute"));
 
 // app.get('/addHoldings',async(req,res)=>{
 //     let tempHoldings=[
@@ -188,6 +196,72 @@ app.get("/allHoldings", async(req, res)=>{
 app.get("/allPositions", async(req, res)=>{
     let allPositions = await PositionsModel.find({});
     res.json(allPositions);
+});
+app.get("/newOrders", async(req, res)=>{
+    let newOrders = await OrdersModel.find({});
+    res.json(newOrders);
+});
+
+app.post("/newOrder", async (req, res) => {
+  const { name, qty, price, mode } = req.body;
+
+  try {
+    const newOrder = new OrdersModel({ name, qty, price, mode });
+    await newOrder.save();
+
+    // Simulate LTP with ±5% variation
+    const ltp = Number((price * (1 + (Math.random() - 0.5) * 0.1)).toFixed(2));
+    const netChange = (ltp - price) * qty;
+    const isLoss = netChange < 0;
+    const netStr = (netChange >= 0 ? "+" : "") + netChange.toFixed(2);
+
+    // Simulate day change between -2.5% to +2.5%
+    const dayChange = (ltp * ((Math.random() - 0.5) * 0.05)).toFixed(2);
+    const dayStr = (dayChange >= 0 ? "+" : "") + dayChange;
+    
+    if (mode === "BUY") {
+      const newHolding = new HoldingsModel({
+        name,
+        qty,
+        price: ltp,
+        avg: price,
+        net: netStr,
+        day: dayStr,
+        isLoss,
+      });
+      await newHolding.save();
+    }
+
+    else if (mode === "SELL") {
+      const existing = await HoldingsModel.findOne({ name });
+      if (!existing) {
+        return res.status(400).send("Sell failed: Stock not in holdings.");
+      }
+
+      if (existing.qty < qty) {
+        return res
+          .status(400)
+          .send(`Sell failed: Not enough quantity. You have ${existing.qty}.`);
+      }
+
+      existing.qty -= qty;
+
+      if (existing.qty === 0) {
+        await HoldingsModel.deleteOne({ _id: existing._id });
+      } else {
+        existing.price = ltp;
+        existing.net = netStr;
+        existing.day = dayStr;
+        existing.isLoss = isLoss;
+        await existing.save();
+      }
+    }
+
+    res.status(200).send("Order and holdings updated.");
+  } catch (err) {
+    console.error("Error placing order:", err);
+    res.status(500).send("Something went wrong.");
+  }
 });
 
 app.listen(PORT, ()=>{
