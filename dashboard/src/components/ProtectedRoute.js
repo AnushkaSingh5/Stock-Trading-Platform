@@ -5,11 +5,11 @@ const ProtectedRoute = ({ children }) => {
   const { user, loading } = useUser();
 
   if (loading) {
-    return <div>Loading...</div>; // or a spinner
+    return <div>Loading...</div>; 
   }
 
   if (!user) {
-    return <Navigate to="http://localhost:3000" />;
+    return <Navigate to="https://stock-frontend-q17u.onrender.com" />;
   }
 
   return children;

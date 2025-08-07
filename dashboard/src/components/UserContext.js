@@ -37,7 +37,7 @@ export const UserProvider = ({ children }) => {
     setUser(null);
     localStorage.removeItem("user");
     localStorage.removeItem("token");
-    window.location.href = "http://localhost:3000";
+    window.location.href = "https://stock-frontend-q17u.onrender.com";
   };
 
   const login = (userData, token) => {

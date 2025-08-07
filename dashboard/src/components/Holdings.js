@@ -10,7 +10,7 @@ const Holdings = () => {
 
   const fetchHoldings = async () => {
     try {
-      const res = await axios.get("http://localhost:3002/allHoldings");
+      const res = await axios.get(`${process.env.REACT_APP_API_URL}/allHoldings`);
       setAllHoldings(res.data);
     } catch (err) {
       console.error("Failed to fetch holdings", err);

@@ -27,8 +27,8 @@ const Signup = () => {
     e.preventDefault();
 
     const url = isLoginMode
-      ? "http://localhost:3002/auth/login"
-      : "http://localhost:3002/auth/signup";
+      ? `${process.env.REACT_APP_API_URL}/auth/login`
+      : `${process.env.REACT_APP_API_URL}/auth/signup`;
 
     try {
       const res = await axios.post(url, form);
@@ -39,7 +39,7 @@ const Signup = () => {
     localStorage.setItem("token", token);
 
       const encodedUser = encodeURIComponent(JSON.stringify(user));
-      window.location.href = `http://localhost:3001?user=${encodedUser}`;
+      window.location.href = `https://stock-dashboard-6hm4.onrender.com?user=${encodedUser}`;
 
     } catch (err) {
       const errorMessage =

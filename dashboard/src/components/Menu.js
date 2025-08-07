@@ -17,7 +17,7 @@ const Menu = () => {
 
   const handleLogout = () => {
     logout();
-    window.location.href = "http://localhost:3000";
+    window.location.href = "https://stock-frontend-q17u.onrender.com";
   };
 
   const menuClass = "menu";

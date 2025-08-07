@@ -11,7 +11,7 @@ const SellActionWindow = ({ uid }) => {
   const { closeSellWindow, triggerHoldingsRefresh } = useContext(GeneralContext);
 
   useEffect(() => {
-    axios.get("http://localhost:3002/allHoldings").then((res) => {
+    axios.get(`${process.env.REACT_APP_API_URL}/allHoldings`).then((res) => {
       setHoldings(res.data);
     });
   }, []);
@@ -28,7 +28,7 @@ const SellActionWindow = ({ uid }) => {
       alert(`You only have ${stock.qty} shares. Cannot sell ${stockQuantity}.`);
       return;
     }
-    axios.post("http://localhost:3002/newOrder", {
+    axios.post(`${process.env.REACT_APP_API_URL}/newOrder`, {
       name: uid,
       qty: Number(stockQuantity),
       price: Number(stockPrice),

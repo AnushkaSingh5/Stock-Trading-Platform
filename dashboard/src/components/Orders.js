@@ -6,7 +6,7 @@ const Orders = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3002/newOrders")
+      .get(`${process.env.REACT_APP_API_URL}/newOrders`)
       .then((res) => {
         setOrders(res.data);
       })
