@@ -13,7 +13,7 @@ const uri = process.env.MONGO_URL;
 const app = express();
 
 app.use(cors({
-  origin: ["http://localhost:3000", "http://localhost:3001", "https://stock-frontend-q17u.onrender.com", "https://stock-dashboard-6hm4.onrender.com"], 
+  origin: ["http://localhost:3000", "http://localhost:3001", "https://stock-frontend-sage.vercel.app/", "https://stock-dashboard-six-nu.vercel.app/"], 
   credentials: true,
 }));
 
