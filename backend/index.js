@@ -16,6 +16,7 @@ app.use(cors({
   origin: ["https://stock-frontend-sage.vercel.app", "https://stock-dashboard-six-nu.vercel.app"], 
   credentials: true,
 }));
+app.options("*", cors());
 
 app.use(bodyParser.json());
 app.use(express.json());
