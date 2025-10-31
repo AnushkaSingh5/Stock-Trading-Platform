@@ -39,7 +39,7 @@ const Signup = () => {
     localStorage.setItem("token", token);
 
       const encodedUser = encodeURIComponent(JSON.stringify(user));
-      window.location.href = `https://stock-dashboard-6hm4.onrender.com?user=${encodedUser}`;
+      window.location.href = `https://stock-dashboard-six-nu.vercel.app/?user=${encodedUser}`;
 
     } catch (err) {
       const errorMessage =
