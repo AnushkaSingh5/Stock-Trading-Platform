@@ -37,7 +37,7 @@ export const UserProvider = ({ children }) => {
     setUser(null);
     localStorage.removeItem("user");
     localStorage.removeItem("token");
-    window.location.href = "https://stock-frontend-q17u.onrender.com";
+    window.location.href = "https://stock-frontend-sage.vercel.app/";
   };
 
   const login = (userData, token) => {

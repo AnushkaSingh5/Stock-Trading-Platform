@@ -17,7 +17,7 @@ const Menu = () => {
 
   const handleLogout = () => {
     logout();
-    window.location.href = "https://stock-frontend-q17u.onrender.com";
+    window.location.href = "https://stock-frontend-sage.vercel.app/";
   };
 
   const menuClass = "menu";
