@@ -13,7 +13,7 @@ const uri = process.env.MONGO_URL;
 const app = express();
 
 app.use(cors({
-  origin: ["https://stock-frontend-sage.vercel.app/", "https://stock-dashboard-six-nu.vercel.app/"], 
+  origin: ["https://stock-frontend-sage.vercel.app", "https://stock-dashboard-six-nu.vercel.app"], 
   credentials: true,
 }));
 

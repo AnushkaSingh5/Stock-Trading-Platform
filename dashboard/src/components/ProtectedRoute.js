@@ -9,7 +9,7 @@ const ProtectedRoute = ({ children }) => {
   }
 
   if (!user) {
-    return <Navigate to="https://stock-frontend-sage.vercel.app/" />;
+    return <Navigate to="https://stock-frontend-sage.vercel.app" />;
   }
 
   return children;
